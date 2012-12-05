@@ -1,35 +1,7 @@
-Bottle Scaffold
-===============
-Files structure skeleton for web apps in bottle microframework
-
-Structure
-=========
-  - db            - SQLite files
-  - lib           - external libraries and application code
-  - static        - assets (js, css, img)
-  - static/js/lib - external js libraries (for development purpose)
-  - views         - templates go there
-
-Makefile
-========
-Contains two targets:
-  - run to actually run the code on localhost
-  - lint to run pychecker and jslint
-
-Dependencies
-============
-  - pychecker
-  - node.js
-  - jslint
-  - make
-
-TODO
-====
-  - add less.js
-  - add yui-compressor
-  - add unit tests skeleton
-  - add WSGI management
+Miejski Kuklok
+==============
+Miejski Kuklok pozwala obserwować, co dzieje się w mieście w wybranych tematach z perspektywy prac rady miejskiej oraz dyskusji w lokalnych mediach. 
 
 License
 =======
-The code is published under BSD 3-clause license.
+Kod źródłowy opublikowany jest na licencji MIT.
