@@ -1,12 +1,45 @@
 body {
   width: 960px;
   margin: 0px auto;
-}
 
-.city {
-  color: #666;
-}
-
-.media {
+  font-family: sans-serif;
   color: #333;
+}
+
+#top-block {
+  background-color: #333;
+  height: 30px;
+  overflow: auto;
+}
+#top-block > p {
+  margin: 3px;
+  color: #ccc;
+}
+
+#open-close-bar {
+  background-color: #333;
+  height: 30px;
+  overflow: auto;
+}
+#open-close-bar > p {
+  text-align: center;
+  margin: 3px;
+  color: #eee;
+}
+.clear {
+  clear: both;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+img.center {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }

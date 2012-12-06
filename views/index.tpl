@@ -11,6 +11,26 @@
   </head>
   <body>
     <!-- content goes here --> 
+    <header>
+      <div id="top-block">
+          <p class="left">Strona główna</p>
+          <p class="right">Szukaj</p>
+      </div>
+
+      <br class="clear" />
+
+      <img alt="Logo Miejskiego Kukloka" title="Logo Miejskiego Kukloka" src="/static/img/logo.png" class="center" />
+    </header>
+
+    <section>
+      <h2 id="chosen-categories">
+        AKTYWNOŚĆ MEDIÓW I MIASTA W TEMATACH: Wszystkie tematy
+      </h2>
+      <div id="open-close-bar">
+        <p>wybierz temat v</p>
+      </div>
+    </section>
+
     <ul>
       %for d in data:
       <li>
