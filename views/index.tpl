@@ -13,7 +13,11 @@
     <!-- content goes here --> 
     <ul>
       %for d in data:
-      <li>{{', '.join(sorted(d['districts']))}}</li>
+      <li>
+        <h2>{{d['category']}}</h2>
+        <p>Media: {{d['media']}}</p>
+        <p>City: {{d['city']}}</p>
+      </li>
       %end
     </ul>
 

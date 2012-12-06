@@ -1,28 +1,20 @@
 .PHONY: default
 
-default: lint
+default: lint run
 
-LIB = ./app/*py
 APP = ./main.py
 CSS = ./static/css/*css
 JS  = ./static/js/*js
+PYLINTRC = ./.pylintrc
 
-lint: $(APP) $(LIB) $(JS)
+lint: $(APP) $(PYLINTRC)
 	@echo "-------------------------------"
 	@echo ">>> Checking python source code"
 	@echo "-------------------------------"
-	pychecker --limit 30 $(APP) $(LIB)
-
-	@echo ""
-	@echo "---------------------------"
-	@echo ">>> Checking js source code"
-	@echo "---------------------------"
-	jslint --white --sub --nomen --vars --predef $$ $(JS)
-
-	@echo ""
-	@echo "---------------------------------------------"
-	@echo ">>> The code is clean - you can commit it now"
-	@echo "---------------------------------------------"
+	pylint --rcfile $(PYLINTRC) $(APP)
+	
+	@echo "-------------------------------"
+	pep8 --ignore=E203,E221 $(APP)
 
 run: $(APP)
-	python $(APP) dev
+	python $(APP)

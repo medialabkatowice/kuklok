@@ -15,7 +15,7 @@ def get_few(li):
 
 def random_date():
     start = dt.date(2012, 11, 1)
-    end   = dt.date(2012, 12, 31)
+    end   = dt.datetime.now().date()
 
     secs = random.randint(0, int((end - start).total_seconds()))
 
@@ -65,7 +65,7 @@ districts = [ u'Bogucice', u'Brynów ', u'Dąb', u'Dąbrówka Mała',
               u'Wełnowiec-Józefowiec', u'Załęska Hałda-Brynów', 
               u'Załęże', u'Zarzecze', u'Zawodzie' ]
 
-categories = [ u'Edukacja', u'Infrastruktura', u'Zdrowie'
+categories = [ u'Edukacja', u'Infrastruktura', u'Zdrowie',
                u'Ekonomia', u'Transport', u'Kultura' ]
                    
 types = {
@@ -82,19 +82,23 @@ except:
 
 for i in range(how_many):
     source = random.choice(sources)
+    date   = random_date()    
+    
     tmp = {
-      u'id'        : i,
-      u'title'     : u'Tytuł %s' % i,
-      u'text'      : u'Lorem ipsum bla bla bla',
-      u'source'    : source['name'],
-      u'url'       : source['url'] % u'lorem',
-      u'tags'      : get_few(tags),
-      u'date'      : random_date(),
-      u'author'    : random.choice(authors),
-      u'districts' : get_few(districts),
-      u'type'      : random.choice(types[source['type']]),
-      u'popularity': random.random(),
-      u'categories': get_few(categories)
+      u'id'           : i,
+      u'title'        : u'Tytuł %s' % i,
+      u'text'         : u'Lorem ipsum bla bla bla',
+      u'source'       : source['name'],
+      u'url'          : source['url'] % u'lorem',
+      u'tags'         : get_few(tags),
+      u'date'         : date,
+      u'week'         : date.isocalendar()[1],
+      u'author'       : random.choice(authors),
+      u'districts'    : get_few(districts),
+      u'type'         : source['type'],
+      u'content_type' : random.choice(types[source['type']]),
+      u'popularity'   : random.random(),
+      u'categories'   : get_few(categories)
     }
 
     data.append(tmp)
