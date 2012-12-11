@@ -15,7 +15,30 @@ def index():
     '''
     Main page view
     '''
-    return template('index', {'title': 'Miejski Kuklok', 'data': get_data()})
+    recent = [e for e in sample_data() if e['week'] > current_week() - 3]
+    categorized = {}
+    for entity in recent:
+        for cat in entity['categories']:
+            tmpl = {
+                u'category': cat,
+                u'desc'    : u'Lorem ipsum',
+                u'cur_week': 0,
+                u'media'   : 0,
+                u'city'    : 0
+            }
+
+            categorized.setdefault(cat, tmpl)
+            categorized[cat][entity['type']] += 1
+
+            if entity['week'] == current_week():
+                categorized[cat]['cur_week'] += 1
+
+    data = sorted(categorized.values(), key=lambda e: e['category'])
+
+    maxi = sorted(categorized.values(), key=lambda e: e['cur_week']).pop()
+    diff = sorted(categorized.values(), key=lambda e: abs(e['media'] - e['city'])).pop()
+
+    return template('index', {'title': 'Miejski Kuklok', 'data': data, 'maxi': maxi, 'diff': diff})
 
 
 @route('/static/<path:path>')
@@ -26,9 +49,9 @@ def serve_files(path):
     return static_file(path, root='./static/')
 
 
-def get_data():
+def sample_data():
     '''
-    Get all the sample data stored in YAML files
+    Get sample data stored in YAML files
     '''
     import yaml
 
@@ -36,24 +59,16 @@ def get_data():
     data_file = os.path.join(cur_path, 'data', 'sample_data.yaml')
 
     data = yaml.load(open(data_file, 'rb').read())
-    current_week = dt.datetime.now().date().isocalendar()[1]
-    data = [e for e in data if e['week'] > current_week - 3]
-
-    categorized = {}
-    for entity in data:
-        for cat in entity['categories']:
-            tmpl = {
-                u'category': cat,
-                u'media'   : 0,
-                u'city'    : 0
-            }
-
-            categorized.setdefault(cat, tmpl)
-            categorized[cat][entity['type']] += 1
-
-    data = categorized.values()
 
     return data
+
+
+def current_week():
+    '''
+    Returns a current week from isocalendar
+    '''
+    isocal = dt.datetime.now().isocalendar()
+    return isocal[1]
 
 
 # -- run the app

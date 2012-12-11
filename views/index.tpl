@@ -26,21 +26,21 @@
       <h2 id="chosen-categories">
         AKTYWNOŚĆ MEDIÓW I MIASTA W TEMATACH: Wszystkie tematy
       </h2>
-      <div id="open-close-bar">
+      <div id="open-close-bar" class="button">
         <p>wybierz temat v</p>
       </div>
     </section>
 
-    <ul>
-      %for d in data:
-      <li>
-        <h2>{{d['category']}}</h2>
-        <p>Media: {{d['media']}}</p>
-        <p>City: {{d['city']}}</p>
-      </li>
-      %end
-    </ul>
+    % for d in data:
+    <p>{{ d }}</p>
+    % end
+    <br />
 
+    <p>{{ maxi }}</p>
+    <br />
+    
+    <p>{{ diff }}</p>
+    <br />
     <!-- JavaScript includes --> 
     <script src="/static/js/lib/jquery-1.7.2.js"></script>
     <script src="/static/js/lib/underscore.js"></script>
