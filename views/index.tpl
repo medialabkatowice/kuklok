@@ -31,15 +31,26 @@
       </div>
     </section>
 
-    % for d in data:
-    <p>{{ d }}</p>
-    % end
+    <h2>{{ active[0][1] }}</h2>
+    <ul>
+      % for w in active:
+      <li class="clear">
+        <p class="left half">{{ w[2] }}</p>
+        <p class="right half">{{ w[3] }}</p>
+      </li>
+      % end
+    </ul>
     <br />
 
-    <p>{{ maxi }}</p>
-    <br />
-    
-    <p>{{ diff }}</p>
+    <h2>{{ differ[0][1] }}</h2>
+    <ul>
+      % for w in differ:
+      <li class="clear">
+        <p class="left half">{{ w[2] }}</p>
+        <p class="right half">{{ w[3] }}</p>
+      </li>
+      % end
+    </ul>
     <br />
     <!-- JavaScript includes --> 
     <script src="/static/js/lib/jquery-1.7.2.js"></script>

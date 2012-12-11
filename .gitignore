@@ -36,3 +36,4 @@ nosetests.xml
 
 *.yaml
 *.sw[op]
+*.db

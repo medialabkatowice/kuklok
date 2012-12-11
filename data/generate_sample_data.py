@@ -4,20 +4,24 @@ Sample data generation script
 '''
 
 import codecs
+import collections
 import datetime as dt
 import random
 import sys
 import yaml
 
+import sqlite3
+con = sqlite3.connect('sample_data.db')
+cur = con.cursor()
 
 def get_few(elements):
     '''
     Chooses a random number of random elements from list elemts
     '''
     random.shuffle(elements)
-    stop = random.randint(0, len(elements) / 2)
+    stop = random.randint(1, len(elements) / 2)
 
-    return elements[:stop]
+    return ','.join(elements[:stop])
 
 
 def random_date():
@@ -84,35 +88,33 @@ types = {
 }
 
 try:
-    how_many = int(sys.argv[1])
+    HOW_MANY = int(sys.argv[1])
 except IndexError:
     print u'python generate_sample_data.py <how_many>'
     exit(-1)
 
-data = []
-for i in range(how_many):
+for i in range(HOW_MANY):
     source = random.choice(sources)
     date   = random_date()
 
-    tmp = {
-        u'id'           : i,
-        u'title'        : u'Tytuł %s' % i,
-        u'text'         : u'Lorem ipsum bla bla bla',
-        u'source'       : source['name'],
-        u'url'          : source['url'] % u'lorem',
-        u'tags'         : get_few(tags),
-        u'date'         : date,
-        u'week'         : date.isocalendar()[1],
-        u'author'       : random.choice(authors),
-        u'districts'    : get_few(districts),
-        u'type'         : source['type'],
-        u'content_type' : random.choice(types[source['type']]),
-        u'popularity'   : random.random(),
-        u'categories'   : get_few(categories)
-    }
+    entity = (
+        u'Tytuł %s' % i,                      # title        
+        source['name'],                       # source      
+        source['url'] % u'lorem',             # url         
+        get_few(tags),                        # tags        
+        date,                                 # date        
+        date.isocalendar()[1],                # week        
+        random.choice(authors),               # author      
+        get_few(districts),                   # districts   
+        source['type'],                       # type        
+        random.choice(types[source['type']]), # content_type
+        random.random(),                      # popularity  
+        get_few(categories)                   # categories  
+                                                                     
+    )
+                                     
+    cur.execute('INSERT INTO articles VALUES(?,?,?,?,?,?,?,?,?,?,?,?)', entity)
 
-    data.append(tmp)
+con.commit()
+con.close()
 
-output_file = codecs.open(u'sample_data.yaml', u'wb', u'utf-8')
-output_file.write(yaml.dump(data))
-output_file.close()

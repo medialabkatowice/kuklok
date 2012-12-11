@@ -8,6 +8,8 @@ import os
 import datetime as dt
 from bottle import route, run, template, static_file
 
+HOW_OLD = 3
+
 
 # -- routes
 @route('/')
@@ -15,30 +17,39 @@ def index():
     '''
     Main page view
     '''
-    recent = [e for e in sample_data() if e['week'] > current_week() - 3]
-    categorized = {}
-    for entity in recent:
-        for cat in entity['categories']:
-            tmpl = {
-                u'category': cat,
-                u'desc'    : u'Lorem ipsum',
-                u'cur_week': 0,
-                u'media'   : 0,
-                u'city'    : 0
-            }
+    cur = connect_to_db()
 
-            categorized.setdefault(cat, tmpl)
-            categorized[cat][entity['type']] += 1
+    # get recent stats for the most active category
+    cur.execute('''SELECT category FROM weeks
+                    WHERE week = %d
+                    ORDER BY abs(media + city) DESC
+                    LIMIT 1
+                ''' % current_week())
+    most_active = cur.fetchone()[0]
 
-            if entity['week'] == current_week():
-                categorized[cat]['cur_week'] += 1
+    cur.execute('''SELECT * FROM weeks
+                    WHERE week > %d AND category = '%s'
+                    ORDER BY week DESC
+                ''' % (current_week() - HOW_OLD, most_active))
+    recent_active = cur.fetchall()
 
-    data = sorted(categorized.values(), key=lambda e: e['category'])
+    # get recent stats for the most differing category
+    cur.execute('''SELECT category FROM weeks
+                    WHERE week = %d
+                    ORDER BY abs(media - city) DESC
+                    LIMIT 1
+                ''' % current_week())
+    most_differ = cur.fetchone()[0]
 
-    maxi = sorted(categorized.values(), key=lambda e: e['cur_week']).pop()
-    diff = sorted(categorized.values(), key=lambda e: abs(e['media'] - e['city'])).pop()
+    cur.execute('''SELECT * FROM weeks
+                    WHERE week > %d AND category = '%s'
+                    ORDER BY week DESC
+                ''' % (current_week() - HOW_OLD, most_differ))
+    recent_differ = cur.fetchall()
 
-    return template('index', {'title': 'Miejski Kuklok', 'data': data, 'maxi': maxi, 'diff': diff})
+    return template('index', {'title': 'Miejski Kuklok',
+                              'active': recent_active,
+                              'differ': recent_differ})
 
 
 @route('/static/<path:path>')
@@ -49,18 +60,19 @@ def serve_files(path):
     return static_file(path, root='./static/')
 
 
-def sample_data():
+def connect_to_db():
     '''
-    Get sample data stored in YAML files
+    Connects to db and return connection with cursor
     '''
-    import yaml
+    import sqlite3
 
-    cur_path  = os.path.dirname(__file__)
-    data_file = os.path.join(cur_path, 'data', 'sample_data.yaml')
+    cur_path = os.path.dirname(__file__)
+    db_file  = os.path.join(cur_path, 'data', 'sample_data.db')
 
-    data = yaml.load(open(data_file, 'rb').read())
+    con = sqlite3.connect(db_file)
+    cur = con.cursor()
 
-    return data
+    return cur
 
 
 def current_week():

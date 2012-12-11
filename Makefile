@@ -7,6 +7,9 @@ CSS = ./static/css/*css
 JS  = ./static/js/*js
 PYLINTRC = ./.pylintrc
 
+initdb:
+	make -C data init
+
 lint: $(APP) $(PYLINTRC)
 	@echo "-------------------------------"
 	@echo ">>> Checking python source code"
