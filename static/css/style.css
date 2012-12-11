@@ -39,7 +39,7 @@ body {
 }
 
 .half {
-  width: 48%;
+  width: 50%;
 }
 
 img.center {
@@ -53,4 +53,54 @@ img.center {
 }
 .button:hover {
   cursor: pointer;
+}
+
+ul {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+li {
+  background-color: #fff;
+  overflow: auto;
+  border-left: #eee 4px solid;
+  border-right: #eee 4px solid;
+  margin-bottom: 3px;
+}
+
+.bar {
+  height: 30px;
+  margin: 0px;
+}
+.bar.left {
+  background-color: #c3d7c4;
+}
+.bar.right {
+  background-color: #e0cca6;
+}
+
+.tags-l {
+  background-color: #ccc;
+  border-right: 1px solid #666;
+  margin: 0px;
+  height: 30px;
+  width: 90px;
+}
+.tags-r {
+  background-color: #ccc;
+  border-left: 1px solid #666;
+  margin: 0px;
+  height: 30px;
+  width: 90px;
+}
+
+.chart {
+  background-color: #eee;
+  padding: 10px;
+  border: #ccc solid 2px;
+  margin: 5px 0px;
+}
+.chart.half {
+  width: 47%;
 }

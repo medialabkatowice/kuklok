@@ -31,26 +31,41 @@
       </div>
     </section>
 
-    <h2>{{ active[0][1] }}</h2>
-    <ul>
-      % for w in active:
-      <li class="clear">
-        <p class="left half">{{ w[2] }}</p>
-        <p class="right half">{{ w[3] }}</p>
-      </li>
-      % end
-    </ul>
-    <br />
+    <div class="chart half left">
+      <h2>{{ active['category'] }}</h2>
+      <ul>
+        % for w in active['weeks']:
+        <li class="clear">
+          <div class="left half">
+            <p class="left tags-l" style="">&nbsp;</p>
+            <p class="bar right" style="width: {{ w[0]/2 }}px">&nbsp;</p>
+          </div>
+          <div class="right half">
+            <p class="right tags-r">&nbsp;</p>
+            <p class="bar left" style="width: {{ w[1]/2 }}px">&nbsp;</p>
+          </div>
+        </li>
+        % end
+      </ul>
+    </div>
 
-    <h2>{{ differ[0][1] }}</h2>
-    <ul>
-      % for w in differ:
-      <li class="clear">
-        <p class="left half">{{ w[2] }}</p>
-        <p class="right half">{{ w[3] }}</p>
-      </li>
-      % end
-    </ul>
+    <div class="chart half right">
+      <h2>{{ differ['category'] }}</h2>
+      <ul>
+        % for w in differ['weeks']:
+        <li class="clear">
+          <div class="left half">
+            <p class="left tags-l" style="">&nbsp;</p>
+            <p class="bar right" style="width: {{ w[0]/2 }}px">&nbsp;</p>
+          </div>
+          <div class="right half">
+            <p class="right tags-r" style="">&nbsp;</p>
+            <p class="bar left" style="width: {{ w[1]/2 }}px">&nbsp;</p>
+          </div>
+        </li>
+        % end
+      </ul>
+    </div>
     <br />
     <!-- JavaScript includes --> 
     <script src="/static/js/lib/jquery-1.7.2.js"></script>
