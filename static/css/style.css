@@ -55,7 +55,7 @@ img.center {
   padding: 3px;
   user-select: none;
   text-align: center;
-  width: 250px;
+  min-width: 150px;
   color: #fff;
 }
 .button:hover {

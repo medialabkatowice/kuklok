@@ -30,14 +30,14 @@
         <section id=categories">
         
         </section>
-        <div id="show-more-categories" class="button">wybierz temat v</div>
+        <div id="show-more-categories" class="button">wybierz temat &#x2207;</div>
       </div>
     </section>
 
     <section id="stats-pane">
     </section>
 
-    <div id="all-stats" class="button">Pokaż wszystkie</div>
+    <div id="all-stats" class="button left">Pokaż wszystkie</div>
 
     <!-- JavaScript includes --> 
     <script src="/static/js/lib/jquery.js"></script>

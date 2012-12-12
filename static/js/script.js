@@ -5,6 +5,7 @@
                             .append(Mustache.render(_tmpl.stats, data));
             $('#all-stats').html(opts.label);
             $('#chosen-categories').html(opts.chosen);
+            arm_details();
         });
     };
 
@@ -27,4 +28,11 @@
             handle_button(defaults);
         }
     });
+
+    function arm_details() {
+        $('.details').click(function () {
+            console.log('Hmm..');
+            console.log($(this).attr('id'));
+        });
+    }
 })();
