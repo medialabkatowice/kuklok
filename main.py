@@ -7,7 +7,7 @@ Main access point to the kuklok prototype
 import os
 import datetime as dt
 import simplejson as js
-from bottle import route, run, template, static_file
+from bottle import request, route, run, template, static_file
 
 HOW_OLD = 6
 
@@ -30,8 +30,18 @@ def all_stats():
     return js.dumps({'data': stats_for([])})
 
 
-@route('/featured_stats')
+@route('/selected_stats')
 def selected_stats():
+    '''
+    Returns stats for selected categories
+    '''
+    categories = request.GET.get('categories', '').split(',')
+
+    return js.dumps({'data': stats_for(categories)})
+
+
+@route('/featured_stats')
+def featured_stats():
     '''
     Returns only selected categories
     '''
@@ -71,7 +81,7 @@ def stats_for(cats=None):
     '''
     Grabs stats from db for selected categories
     '''
-    cats_query = ' AND ' + ' AND '.join(["category='%s'" % e for e in cats])\
+    cats_query = ' AND ' + ' OR '.join(["category='%s'" % e for e in cats])\
                  if cats else ''
 
     cur = db_cursor()
@@ -127,4 +137,4 @@ def current_week():
 
 # -- run the app
 if __name__ == '__main__':
-    run(host='localhost', port=8080, reloader=True)
+    run(host='localhost', port=8081, reloader=True)

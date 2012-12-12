@@ -26,11 +26,40 @@
       <h2>
         AKTYWNOŚĆ MEDIÓW I MIASTA W TEMATACH: <span id="chosen-categories">Wszystkie tematy</span>
       </h2>
+      <section id="categories">
+        <ul class="half left">
+          <li>
+            <input class="left" type="checkbox" name="Edukacja" />
+            <span class="left">Edukacja</span>
+          </li>
+          <li>
+            <input class="left" type="checkbox" name="Ekonomia" />
+            <span class="left">Ekonomia</span>
+          </li>
+          <li>
+            <input class="left" type="checkbox" name="Infrastruktura" />
+            <span class="left">Infrastruktura</span>
+          </li>
+        </ul>        
+        <ul class="half right">
+          <li>
+            <input class="left" type="checkbox" name="Kultura" />
+            <span class="left">Kultura</span>
+          </li>
+          <li>
+            <input class="left" type="checkbox" name="Transport" />
+            <span class="left">Transport</span>
+          </li>
+          <li>
+            <input class="left" type="checkbox" name="Zdrowie" />
+            <span class="left">Zdrowie</span>
+          </li>
+        </ul>        
+        <div id="filter-categories" class="right button">Wybierz</div>
+      </section>
+
       <div id="open-close-bar">
-        <section id=categories">
-        
-        </section>
-        <div id="show-more-categories" class="button">wybierz temat &#x2207;</div>
+        <div id="show-more-categories" class="button">WYBIERZ TEMATY</div>
       </div>
     </section>
 

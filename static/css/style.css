@@ -6,6 +6,20 @@ body {
   color: #333;
 }
 
+ul {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+li {
+  background-color: #fff;
+  overflow: auto;
+  border-left: #eee 4px solid;
+  border-right: #eee 4px solid;
+  margin-bottom: 3px;
+}
+
 #top-block {
   background-color: #333;
   height: 30px;
@@ -22,6 +36,21 @@ body {
   min-height: 30px;
   overflow: auto;
 }
+#categories {
+  overflow: auto;
+  background-color: #333;
+}
+#categories ul {
+  background-color: #333;
+}
+#categories li {
+  background-color: inherit !important;
+  padding: 3px 15px;
+  margin: 0px !important;
+  border: 0px !important;
+  color: #fff !important;
+}
+
 #show-more-categories {
   margin: 3px auto;
   background-color: inherit !important;
@@ -61,21 +90,7 @@ img.center {
 .button:hover {
   cursor: pointer;
   background-color: #ddd;
-  color: #333;
-}
-
-ul {
-  list-style: none;
-  margin: 0px;
-  padding: 0px;
-}
-
-li {
-  background-color: #fff;
-  overflow: auto;
-  border-left: #eee 4px solid;
-  border-right: #eee 4px solid;
-  margin-bottom: 3px;
+  color: #666;
 }
 
 .bar {

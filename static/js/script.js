@@ -6,6 +6,8 @@
             $('#all-stats').html(opts.label);
             $('#chosen-categories').html(opts.chosen);
             arm_details();
+            $('#show-more-categories').html('WYBIERZ TEMATY');
+            $('#categories').slideUp();
         });
     };
 
@@ -35,4 +37,35 @@
             console.log($(this).attr('id'));
         });
     }
+
+    $('#categories').hide();
+
+    $('#show-more-categories').click(function () {
+        if($('#categories').is(':visible')) {
+            $(this).html('WYBIERZ TEMATY');
+            $('#categories').slideUp();
+        }
+        else {
+            $(this).html('SCHOWAJ PANEL');
+            $('#categories').find('input')
+                            .attr('checked', false)
+                            .end().slideDown();
+        }
+    });
+
+    $('#filter-categories').click(function () {
+        var categories = $('input:checked').map(function () { 
+                                                    return $(this).attr('name') 
+                                                }).toArray()
+        $.getJSON('/selected_stats', {categories: categories.join(',')}, function (data) {
+            $('#stats-pane').empty()
+                            .append(Mustache.render(_tmpl.stats, data));
+            $('#all-stats').html('Pokaż wszystkie');
+            $('#chosen-categories').html(categories.join(', '));
+            arm_details();
+            $('#show-more-categories').html('Wybierz tematy');
+            $('#categories').slideUp();
+
+        });
+    });
 })();
