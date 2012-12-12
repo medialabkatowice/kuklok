@@ -30,41 +30,6 @@ def all_stats():
     return js.dumps({'data': stats_for([])})
 
 
-def stats_for(cats=[]):
-    '''
-    Grabs stats from db for selected categories
-    '''
-    cats_query = ' AND ' + ' AND '.join(["category='%s'" % e for e in cats])\
-                if cats else ''
-
-    cur = db_cursor()
-    cur.execute('''SELECT category, media, city
-                    FROM weeks
-                    WHERE week > %d %s
-                    ORDER BY category, week DESC
-                ''' % (current_week() - HOW_OLD, cats_query))
-    raw_data = cur.fetchall()
-
-    aggregated = {}
-    for entry in raw_data:
-        category = entry[0]
-        counts   = {
-            'media': entry[1],
-            'city' : entry[2]
-        }
-
-        tmpl = {
-            'category': category,
-            'weeks'   : []
-        }
-        aggregated.setdefault(category, tmpl)
-        aggregated[category]['weeks'].append(counts)
-
-    data = sorted(aggregated.values(), key=lambda e: e['category'])
-
-    return data
-
-
 @route('/featured_stats')
 def selected_stats():
     '''
@@ -93,12 +58,48 @@ def selected_stats():
 
     return js.dumps({'data': data})
 
+
 @route('/static/<path:path>')
 def serve_files(path):
     '''
     Static files route
     '''
     return static_file(path, root='./static/')
+
+
+def stats_for(cats=None):
+    '''
+    Grabs stats from db for selected categories
+    '''
+    cats_query = ' AND ' + ' AND '.join(["category='%s'" % e for e in cats])\
+                 if cats else ''
+
+    cur = db_cursor()
+    cur.execute('''SELECT category, media, city
+                    FROM weeks
+                    WHERE week > %d %s
+                    ORDER BY category, week DESC
+                ''' % (current_week() - HOW_OLD, cats_query))
+    raw_data = cur.fetchall()
+
+    aggregated = {}
+    for entry in raw_data:
+        category = entry[0]
+        counts   = {
+            'media': entry[1],
+            'city' : entry[2]
+        }
+
+        tmpl = {
+            'category': category,
+            'weeks'   : []
+        }
+        aggregated.setdefault(category, tmpl)
+        aggregated[category]['weeks'].append(counts)
+
+    data = sorted(aggregated.values(), key=lambda e: e['category'])
+
+    return data
 
 
 def db_cursor():

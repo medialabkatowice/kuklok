@@ -27,7 +27,10 @@
         AKTYWNOŚĆ MEDIÓW I MIASTA W TEMATACH: Wszystkie tematy
       </h2>
       <div id="open-close-bar" class="button">
-        <p>wybierz temat v</p>
+        <section id=categories">
+        
+        </section>
+        <p id="show-more-categories" class="button">wybierz temat v</p>
       </div>
     </section>
 

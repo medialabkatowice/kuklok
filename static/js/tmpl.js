@@ -4,7 +4,7 @@ var _tmpl = (function () {
     self.stats = 
         '<ul id="stats">' + 
           '{{#data}}' + 
-            '<li class="chart half left">' + 
+            '<li id="{{category}}" class="chart half left">' + 
               '<h2>{{category}}</h2>' + 
               '<ul>' + 
                 '{{#weeks}}' +
