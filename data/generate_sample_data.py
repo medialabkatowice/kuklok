@@ -3,16 +3,14 @@
 Sample data generation script
 '''
 
-import codecs
-import collections
 import datetime as dt
 import random
 import sys
-import yaml
 
 import sqlite3
 con = sqlite3.connect('sample_data.db')
 cur = con.cursor()
+
 
 def get_few(elements):
     '''
@@ -98,23 +96,22 @@ for i in range(HOW_MANY):
     date   = random_date()
 
     entity = (
-        u'Tytuł %s' % i,                      # title        
-        source['name'],                       # source      
-        source['url'] % u'lorem',             # url         
-        get_few(tags),                        # tags        
-        date,                                 # date        
-        date.isocalendar()[1],                # week        
-        random.choice(authors),               # author      
-        get_few(districts),                   # districts   
-        source['type'],                       # type        
-        random.choice(types[source['type']]), # content_type
-        random.random(),                      # popularity  
-        get_few(categories)                   # categories  
-                                                                     
+        u'Tytuł %s' % i,                       # title
+        source['name'],                        # source
+        source['url'] % u'lorem',              # url
+        get_few(tags),                         # tags
+        date,                                  # date
+        date.isocalendar()[1],                 # week
+        random.choice(authors),                # author
+        get_few(districts),                    # districts
+        source['type'],                        # type
+        random.choice(types[source['type']]),  # content_type
+        random.random(),                       # popularity
+        get_few(categories)                    # categories
+
     )
-                                     
+
     cur.execute('INSERT INTO articles VALUES(?,?,?,?,?,?,?,?,?,?,?,?)', entity)
 
 con.commit()
 con.close()
-

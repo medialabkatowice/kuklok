@@ -6,6 +6,7 @@ Main access point to the kuklok prototype
 
 import os
 import datetime as dt
+import simplejson as js
 from bottle import route, run, template, static_file
 
 HOW_OLD = 6
@@ -17,6 +18,58 @@ def index():
     '''
     Main page view
     '''
+    return template('index', {'title': 'Miejski kuklok'})
+
+
+@route('/all_stats')
+def all_stats():
+    '''
+    Returns stats for all categories
+    '''
+
+    return js.dumps({'data': stats_for([])})
+
+
+def stats_for(cats=[]):
+    '''
+    Grabs stats from db for selected categories
+    '''
+    cats_query = ' AND ' + ' AND '.join(["category='%s'" % e for e in cats])\
+                if cats else ''
+
+    cur = db_cursor()
+    cur.execute('''SELECT category, media, city
+                    FROM weeks
+                    WHERE week > %d %s
+                    ORDER BY category, week DESC
+                ''' % (current_week() - HOW_OLD, cats_query))
+    raw_data = cur.fetchall()
+
+    aggregated = {}
+    for entry in raw_data:
+        category = entry[0]
+        counts   = {
+            'media': entry[1],
+            'city' : entry[2]
+        }
+
+        tmpl = {
+            'category': category,
+            'weeks'   : []
+        }
+        aggregated.setdefault(category, tmpl)
+        aggregated[category]['weeks'].append(counts)
+
+    data = sorted(aggregated.values(), key=lambda e: e['category'])
+
+    return data
+
+
+@route('/featured_stats')
+def selected_stats():
+    '''
+    Returns only selected categories
+    '''
     cur = db_cursor()
 
     # get recent stats for the most active category
@@ -27,17 +80,6 @@ def index():
                 ''' % current_week())
     most_active = cur.fetchone()[0]
 
-    cur.execute('''SELECT media, city FROM weeks
-                    WHERE week > %d AND category = '%s'
-                    ORDER BY week DESC
-                ''' % (current_week() - HOW_OLD, most_active))
-    recent_active = cur.fetchall()
-
-    active = {
-        'weeks'   : recent_active,
-        'category': most_active
-    }
-
     # get recent stats for the most differing category
     cur.execute('''SELECT category FROM weeks
                     WHERE week = %d
@@ -46,20 +88,10 @@ def index():
                 ''' % current_week())
     most_differ = cur.fetchone()[0]
 
-    cur.execute('''SELECT media, city FROM weeks
-                    WHERE week > %d AND category = '%s'
-                    ORDER BY week DESC
-                ''' % (current_week() - HOW_OLD, most_differ))
-    recent_differ = cur.fetchall()
+    # two separate calls to keep the order: active, differ
+    data = stats_for([most_active]) + stats_for([most_differ])
 
-    differ = {
-        'weeks'   : recent_differ,
-        'category': most_differ
-    }
-
-    return template('index', {'title': 'Miejski Kuklok',
-                              'active': active, 'differ': differ})
-
+    return js.dumps({'data': data})
 
 @route('/static/<path:path>')
 def serve_files(path):

@@ -31,46 +31,17 @@
       </div>
     </section>
 
-    <div class="chart half left">
-      <h2>{{ active['category'] }}</h2>
-      <ul>
-        % for w in active['weeks']:
-        <li class="clear">
-          <div class="left half">
-            <p class="left tags-l" style="">&nbsp;</p>
-            <p class="bar right" style="width: {{ w[0]/2 }}px">&nbsp;</p>
-          </div>
-          <div class="right half">
-            <p class="right tags-r">&nbsp;</p>
-            <p class="bar left" style="width: {{ w[1]/2 }}px">&nbsp;</p>
-          </div>
-        </li>
-        % end
-      </ul>
-    </div>
+    <section id="stats-pane">
+    </section>
 
-    <div class="chart half right">
-      <h2>{{ differ['category'] }}</h2>
-      <ul>
-        % for w in differ['weeks']:
-        <li class="clear">
-          <div class="left half">
-            <p class="left tags-l" style="">&nbsp;</p>
-            <p class="bar right" style="width: {{ w[0]/2 }}px">&nbsp;</p>
-          </div>
-          <div class="right half">
-            <p class="right tags-r" style="">&nbsp;</p>
-            <p class="bar left" style="width: {{ w[1]/2 }}px">&nbsp;</p>
-          </div>
-        </li>
-        % end
-      </ul>
-    </div>
-    <br />
+    <div id="all-stats" class="button">Pokaż wszystkie</div>
+
     <!-- JavaScript includes --> 
-    <script src="/static/js/lib/jquery-1.7.2.js"></script>
+    <script src="/static/js/lib/jquery.js"></script>
     <script src="/static/js/lib/underscore.js"></script>
+    <script src="/static/js/lib/mustache.js"></script>
 
+    <script src="/static/js/tmpl.js"></script>
     <script src="/static/js/script.js"></script>
   </body>
 </html

@@ -1,3 +1,8 @@
+# coding: utf-8
+'''
+Sample data aggregation script
+'''
+
 import collections
 import sqlite3
 
