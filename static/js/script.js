@@ -1,11 +1,30 @@
 (function () {
-    $.getJSON('/featured_stats', function (data) {
-        $('#stats-pane').append(Mustache.render(_tmpl.stats, data));
-    });
+    var handle_button = function (opts) {
+        $.getJSON(opts.url, function (data) {
+            $('#stats-pane').empty()
+                            .append(Mustache.render(_tmpl.stats, data));
+            $('#all-stats').html(opts.label);
+            $('#chosen-categories').html(opts.chosen);
+        });
+    };
+
+    var defaults = {
+        url   : '/featured_stats',
+        label : 'Pokaż wszystkie',
+        chosen: 'Najciekawsze tematy'
+    }
+    handle_button(defaults);
 
     $('#all-stats').click(function () {
-        $.getJSON('/all_stats', function (data) {
-            $('#stats-pane').empty().append(Mustache.render(_tmpl.stats, data));
-        });
+        if($(this).html() === 'Pokaż wszystkie') {
+            handle_button({
+                url   : '/all_stats',
+                label : 'Pokaż najciekawsze',
+                chosen: 'Wszystkie tematy'
+            });
+        }
+        else {
+            handle_button(defaults);
+        }
     });
 })();

@@ -17,15 +17,16 @@ body {
 }
 
 #open-close-bar {
+  text-align: center;
   background-color: #333;
-  height: 30px;
+  min-height: 30px;
   overflow: auto;
 }
-#open-close-bar > p {
-  text-align: center;
-  margin: 3px;
-  color: #eee;
+#show-more-categories {
+  margin: 3px auto;
+  background-color: inherit !important;
 }
+
 .clear {
   clear: both;
 }
@@ -49,10 +50,18 @@ img.center {
 }
 
 .button {
+  background-color: #999;
+  border-radius: 3px;
+  padding: 3px;
   user-select: none;
+  text-align: center;
+  width: 250px;
+  color: #fff;
 }
 .button:hover {
   cursor: pointer;
+  background-color: #ddd;
+  color: #333;
 }
 
 ul {
@@ -103,4 +112,8 @@ li {
 }
 .chart.half {
   width: 47%;
+}
+
+#stats-pane {
+  overflow: auto;
 }
