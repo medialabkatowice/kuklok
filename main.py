@@ -137,4 +137,4 @@ def current_week():
 
 # -- run the app
 if __name__ == '__main__':
-    run(host='localhost', port=8081, reloader=True)
+    run(host='localhost', port=8080, reloader=True)
