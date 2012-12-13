@@ -17,7 +17,7 @@ lint: $(APP) $(PYLINTRC)
 	pylint --rcfile $(PYLINTRC) $(APP)
 	
 	@echo "-------------------------------"
-	pep8 --ignore=E203,E221 $(APP)
+	pep8 --ignore=E127,E203,E221 $(APP)
 
 run: $(APP)
 	python $(APP)
