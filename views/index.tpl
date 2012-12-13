@@ -26,6 +26,11 @@
       <h2>
         AKTYWNOŚĆ MEDIÓW I MIASTA W TEMATACH: <span id="chosen-categories">Wszystkie tematy</span>
       </h2>
+
+      <div id="open-close-bar">
+        <div id="show-more-categories" class="button">WYBIERZ TEMATY</div>
+      </div>
+
       <section id="categories">
         <ul class="half left">
           <li>
@@ -58,9 +63,6 @@
         <div id="filter-categories" class="right button">Wybierz</div>
       </section>
 
-      <div id="open-close-bar">
-        <div id="show-more-categories" class="button">WYBIERZ TEMATY</div>
-      </div>
     </section>
 
     <section id="stats-pane">
