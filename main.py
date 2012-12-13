@@ -7,7 +7,7 @@ Main access point to the kuklok prototype
 import os
 import datetime as dt
 import simplejson as js
-from bottle import request, route, run, template, static_file
+from bottle import request, redirect, route, run, template, static_file
 
 HOW_OLD = 6
 
@@ -69,6 +69,27 @@ def featured_stats():
     return js.dumps({'data': data})
 
 
+@route('/timeline')
+@route('/timeline/')
+def empty_timeline():
+    '''
+    Empty timeline handler
+    '''
+    redirect('/')
+
+
+@route('/timeline/<category>')
+def timeline(category=None):
+    '''
+    Get all the data from a certain category
+    '''
+    data = stats_for([category], latest=False)
+    if not data:
+        redirect('/')
+
+    return js.dumps({'data': data})
+
+
 @route('/static/<path:path>')
 def serve_files(path):
     '''
@@ -77,20 +98,26 @@ def serve_files(path):
     return static_file(path, root='./static/')
 
 
-def stats_for(cats=None):
+def stats_for(cats=None, latest=True):
     '''
     Grabs stats from db for selected categories
     '''
-    cats_query = ' AND (%s)'
-    sub_query  = cats_query % ' OR '.join(["category='%s'" % e for e in cats])\
+    assert cats or latest
+
+    categories = '(%s)' % ' OR '.join(["category='%s'" % e for e in cats])\
                  if cats else ''
+    history    = 'week > %d' % (current_week() - HOW_OLD)\
+                 if latest else ''
+    where      = ' AND '.join([e for e in [categories, history] if e])
+
+    query = '''SELECT category, media, city
+                FROM weeks
+                WHERE %s
+                ORDER BY category, week DESC
+            ''' % where
 
     cur = db_cursor()
-    cur.execute('''SELECT category, media, city
-                    FROM weeks
-                    WHERE week > %d %s
-                    ORDER BY category, week DESC
-                ''' % (current_week() - HOW_OLD, sub_query))
+    cur.execute(query)
     raw_data = cur.fetchall()
 
     aggregated = {}

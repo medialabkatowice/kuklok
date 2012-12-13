@@ -26,7 +26,7 @@ def random_date():
     '''
     Gets the random date from 1st of November 2012 till today
     '''
-    start = dt.date(2012, 11, 1)
+    start = dt.date(2012, 10, 1)
     end   = dt.datetime.now().date()
 
     secs = random.randint(0, int((end - start).total_seconds()))
