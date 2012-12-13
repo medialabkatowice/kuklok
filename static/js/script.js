@@ -35,7 +35,8 @@
         var opts = {
             url   : '/selected_stats',
             label : 'Pokaż wszystkie',
-            chosen: categories,
+            chosen: $(':checkbox').length === cats.length ? 
+                    'Wszystkie tematy' : categories,
             data  : {categories: categories}
         }
         handle_button(opts);
@@ -43,10 +44,9 @@
 
 
     function open_categories_panel() {
-        $('#categories').find('input')
-                        .attr('checked', false)
-                        .end()
-                        .slideDown(function () {
+        select_checkboxes();
+
+        $('#categories').slideDown(function () {
                             $('#show-more-categories').html('SCHOWAJ PANEL');
                         });
     }
@@ -82,4 +82,18 @@
             console.log($(this).attr('id'));
         });
     }
+
+    function select_checkboxes() {
+       var categories = $('.details').map(function () { 
+                                return $(this).attr('id'); 
+                         }).toArray();
+
+       $(':checkbox').each(function () {
+           var name    = $(this).attr('name');
+           var present = _.contains(categories, name);
+
+           $(this).attr('checked', present);
+       });
+    }
+
 })();
