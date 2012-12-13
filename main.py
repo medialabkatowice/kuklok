@@ -27,7 +27,7 @@ def all_stats():
     Returns stats for all categories
     '''
 
-    return js.dumps({'data': stats_for([])})
+    return js.dumps({'data': stats_for()})
 
 
 @route('/selected_stats')
