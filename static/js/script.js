@@ -1,22 +1,7 @@
 (function () {
-    var handle_button = function (opts) {
-        $.getJSON(opts.url, function (data) {
-            $('#stats-pane').empty()
-                            .append(Mustache.render(_tmpl.stats, data));
-            $('#all-stats').html(opts.label);
-            $('#chosen-categories').html(opts.chosen);
-            arm_details();
-            $('#show-more-categories').html('WYBIERZ TEMATY');
-            $('#categories').slideUp();
-        });
-    };
 
-    var defaults = {
-        url   : '/featured_stats',
-        label : 'Pokaż wszystkie',
-        chosen: 'Najciekawsze tematy'
-    }
-    handle_button(defaults);
+    handle_button();
+    $('#categories').hide();
 
     $('#all-stats').click(function () {
         if($(this).html() === 'Pokaż wszystkie') {
@@ -27,45 +12,74 @@
             });
         }
         else {
-            handle_button(defaults);
+            handle_button();
         }
     });
 
-    function arm_details() {
-        $('.details').click(function () {
-            console.log('Hmm..');
-            console.log($(this).attr('id'));
-        });
-    }
-
-    $('#categories').hide();
 
     $('#show-more-categories').click(function () {
         if($('#categories').is(':visible')) {
-            $(this).html('WYBIERZ TEMATY');
-            $('#categories').slideUp();
+            close_categories_panel();
         }
         else {
-            $(this).html('SCHOWAJ PANEL');
-            $('#categories').find('input')
-                            .attr('checked', false)
-                            .end().slideDown();
+            open_categories_panel();
         }
     });
 
+
     $('#filter-categories').click(function () {
-        var categories = $('input:checked').map(function () { 
-                                                    return $(this).attr('name') 
-                                                }).toArray()
-        $.getJSON('/selected_stats', {categories: categories.join(',')}, function (data) {
+        var cats = $('input:checked').map(function () { 
+                                          return $(this).attr('name') 
+                                      }).toArray()
+        var categories = cats.join(',');
+        var opts = {
+            url   : '/selected_stats',
+            label : 'Pokaż wszystkie',
+            chosen: categories,
+            data  : {categories: categories}
+        }
+        handle_button(opts);
+    });
+
+
+    function open_categories_panel() {
+        $('#categories').find('input')
+                        .attr('checked', false)
+                        .end()
+                        .slideDown(function () {
+                            $('#show-more-categories').html('SCHOWAJ PANEL');
+                        });
+    }
+
+    function close_categories_panel() {
+        $('#categories').slideUp(function () {
+                            $('#show-more-categories').html('WYBIERZ TEMATY');
+                        });
+    }
+
+    function handle_button(opts) {
+        var opts = opts || {
+            url   : '/featured_stats',
+            label : 'Pokaż wszystkie',
+            chosen: 'Najciekawsze tematy',
+            data  : {}
+        }
+
+        $.getJSON(opts.url, opts.data, function (data) {
             $('#stats-pane').empty()
                             .append(Mustache.render(_tmpl.stats, data));
-            $('#all-stats').html('Pokaż wszystkie');
-            $('#chosen-categories').html(categories.join(', '));
+            $('#all-stats').html(opts.label);
+            $('#chosen-categories').html(opts.chosen);
             arm_details();
-            $('#show-more-categories').html('Wybierz tematy');
-            $('#categories').slideUp();
-
+            close_categories_panel();
         });
-    });
+    };
+
+
+    function arm_details() {
+        $('.details').click(function () {
+            // TODO code here
+            console.log($(this).attr('id'));
+        });
+    }
 })();
