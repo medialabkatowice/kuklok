@@ -81,7 +81,8 @@ def stats_for(cats=None):
     '''
     Grabs stats from db for selected categories
     '''
-    cats_query = ' AND ' + ' OR '.join(["category='%s'" % e for e in cats])\
+    cats_query = ' AND (%s)'
+    sub_query  = cats_query % ' OR '.join(["category='%s'" % e for e in cats])\
                  if cats else ''
 
     cur = db_cursor()
@@ -89,7 +90,7 @@ def stats_for(cats=None):
                     FROM weeks
                     WHERE week > %d %s
                     ORDER BY category, week DESC
-                ''' % (current_week() - HOW_OLD, cats_query))
+                ''' % (current_week() - HOW_OLD, sub_query))
     raw_data = cur.fetchall()
 
     aggregated = {}
