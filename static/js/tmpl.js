@@ -26,6 +26,7 @@ var _tmpl = (function () {
           '{{/data}}' + 
         '</ul>';
 
+
     self.timeline = 
         '<ul id="timeline">' + 
           '{{#data}}' + 
@@ -33,7 +34,7 @@ var _tmpl = (function () {
               '<h2>{{category}}</h2>' + 
               '<ul>' + 
                 '{{#weeks}}' +
-                '<li class="clear">' + 
+                '<li class="week clear">' + 
                   '<div class="left half">' + 
                     '<p class="left tags-l">&nbsp;</p>' + 
                     '<p class="bar right" style="width: {{media}}px">&nbsp;</p>' + 
@@ -49,6 +50,9 @@ var _tmpl = (function () {
             '</li>' + 
           '{{/data}}' + 
         '</ul>';
+
+    self.details = 
+        '<div class="clear" id="details-pane"></div>';
 
     return self;
 })();

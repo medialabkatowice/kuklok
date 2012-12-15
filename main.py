@@ -89,6 +89,29 @@ def timeline(category=None):
     return js.dumps({'data': data})
 
 
+@route('/details/<category>/<week_delta>')
+def details(category, week_delta):
+    '''
+    Gets the details for a certain week
+    '''
+    week = current_week() - int(week_delta)
+    query = '''SELECT date, title, author, source, url
+                FROM articles
+                WHERE categories LIKE '%%%s%%'
+                    AND week = %d
+                    AND type = '%s'
+            '''
+
+    cur = db_cursor()
+    cur.execute(query % (category, week, 'media'))
+    media = cur.fetchall()
+
+    cur.execute(query % (category, week, 'city'))
+    city = cur.fetchall()
+
+    return {'media': media, 'city': city}
+
+
 @route('/static/<path:path>')
 def serve_files(path):
     '''

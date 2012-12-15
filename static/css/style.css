@@ -133,3 +133,8 @@ img.center {
 #stats-pane {
   overflow: auto;
 }
+
+#details-pane {
+    height: 200px;
+    background-color: #ddd;
+}
