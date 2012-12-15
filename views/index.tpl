@@ -69,6 +69,8 @@
     </section>
 
     <div id="all-stats" class="button left">Pokaż wszystkie</div>
+    <br class="clear" />
+    <p>&nbsp;</p>
 
     <!-- JavaScript includes --> 
     <script src="/static/js/lib/jquery.js"></script>

@@ -69,13 +69,12 @@ def featured_stats():
     return js.dumps({'data': data})
 
 
-@route('/timeline')
-@route('/timeline/')
-def empty_timeline():
+@route('/<category:re:[A-Z].*>')
+def single_category(category=None):
     '''
-    Empty timeline handler
+    Show page for selected category
     '''
-    redirect('/')
+    return template('category', {'title': 'Miejski kuklok :: %s' % category})
 
 
 @route('/timeline/<category>')
